@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [mailboxesPerDomain, setMailboxesPerDomain] = useState(2);
   
   // Funnel
-  const [emailsPerDayPerMailbox, setEmailsPerDayPerMailbox] = useState(35);
+  const [emailsPerDayPerMailbox, setEmailsPerDayPerMailbox] = useState(20);
   const [emailsPerLeadPerMonth, setEmailsPerLeadPerMonth] = useState(3);
   const [positiveReplyRate, setPositiveReplyRate] = useState(0.5); // %
   const [conversionRate, setConversionRate] = useState(10); // %
