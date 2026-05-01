@@ -547,7 +547,7 @@ export default function Dashboard() {
                     contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1rem', backdropFilter: 'blur(16px)' }}
                     itemStyle={{ color: '#ededed' }}
                     labelStyle={{ color: '#9ca3af', marginBottom: '0.5rem' }}
-                    formatter={(value: number, name: string) => [formatCurrency(value), name === 'profit' ? 'Accumulated Profit' : 'Total Monthly Cost']}
+                    formatter={(value: any, name: string) => [formatCurrency(Number(value)), name === 'profit' ? 'Accumulated Profit' : 'Total Monthly Cost']}
                     labelFormatter={(label) => `${label} Companies (approx. ${formatNumber(chartData.find(d => d.companies === label)?.clients || 0)} clients)`}
                   />
                   <Line type="monotone" dataKey="cost" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, fill: '#0a0a0a', stroke: '#ef4444', strokeWidth: 2 }} activeDot={{ r: 6 }} name="cost" />
@@ -576,8 +576,8 @@ export default function Dashboard() {
                     contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1rem', backdropFilter: 'blur(16px)' }}
                     itemStyle={{ color: '#ededed' }}
                     labelStyle={{ color: '#9ca3af', marginBottom: '0.5rem' }}
-                    formatter={(value: number, name: string) => [formatCurrency(value), 'Total Monthly Cost']}
-                    labelFormatter={(label) => `${formatNumber(label as number)} Emails`}
+                    formatter={(value: any) => [formatCurrency(Number(value)), 'Total Monthly Cost']}
+                    labelFormatter={(label) => `${formatNumber(Number(label))} Emails`}
                   />
                   <Line type="monotone" dataKey="cost" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, fill: '#0a0a0a', stroke: '#ef4444', strokeWidth: 2 }} activeDot={{ r: 6 }} name="cost" />
                 </LineChart>
@@ -603,8 +603,8 @@ export default function Dashboard() {
                     contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1rem', backdropFilter: 'blur(16px)' }}
                     itemStyle={{ color: '#ededed' }}
                     labelStyle={{ color: '#9ca3af', marginBottom: '0.5rem' }}
-                    formatter={(value: number, name: string) => [value, 'Clients Acquired']}
-                    labelFormatter={(label) => `${formatNumber(label as number)} Emails`}
+                    formatter={(value: any) => [value, 'Clients Acquired']}
+                    labelFormatter={(label) => `${formatNumber(Number(label))} Emails`}
                   />
                   <Line type="monotone" dataKey="clients" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, fill: '#0a0a0a', stroke: '#3b82f6', strokeWidth: 2 }} activeDot={{ r: 6 }} name="clients" />
                 </LineChart>
@@ -630,8 +630,8 @@ export default function Dashboard() {
                     contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1rem', backdropFilter: 'blur(16px)' }}
                     itemStyle={{ color: '#ededed' }}
                     labelStyle={{ color: '#9ca3af', marginBottom: '0.5rem' }}
-                    formatter={(value: number, name: string) => [value, 'Clients Acquired']}
-                    labelFormatter={(label) => `${formatCurrency(label as number)} Cost`}
+                    formatter={(value: any) => [value, 'Clients Acquired']}
+                    labelFormatter={(label) => `${formatCurrency(Number(label))} Cost`}
                   />
                   <Line type="monotone" dataKey="clients" stroke="#eab308" strokeWidth={3} dot={{ r: 4, fill: '#0a0a0a', stroke: '#eab308', strokeWidth: 2 }} activeDot={{ r: 6 }} name="clients" />
                 </LineChart>
@@ -770,8 +770,8 @@ export default function Dashboard() {
                   contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1rem', backdropFilter: 'blur(16px)' }}
                   itemStyle={{ color: '#ededed' }}
                   labelStyle={{ color: '#9ca3af', marginBottom: '0.5rem' }}
-                  formatter={(value: number, name: string) => [
-                    name === 'activeClients' ? value : formatCurrency(value), 
+                  formatter={(value: any, name: string) => [
+                    name === 'activeClients' ? value : formatCurrency(Number(value)), 
                     name === 'cumulativeProfit' ? 'Cumulative Profit' : 
                     name === 'monthlyProfit' ? 'Monthly Net Profit' : 
                     name === 'monthlyCost' ? 'Monthly Fixed Cost' : 'Total Active Clients'
