@@ -547,7 +547,7 @@ export default function Dashboard() {
                     contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1rem', backdropFilter: 'blur(16px)' }}
                     itemStyle={{ color: '#ededed' }}
                     labelStyle={{ color: '#9ca3af', marginBottom: '0.5rem' }}
-                    formatter={(value: any, name: string) => [formatCurrency(Number(value)), name === 'profit' ? 'Accumulated Profit' : 'Total Monthly Cost']}
+                    formatter={(value: any, name: any) => [formatCurrency(Number(value)), name === 'profit' ? 'Accumulated Profit' : 'Total Monthly Cost']}
                     labelFormatter={(label) => `${label} Companies (approx. ${formatNumber(chartData.find(d => d.companies === label)?.clients || 0)} clients)`}
                   />
                   <Line type="monotone" dataKey="cost" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, fill: '#0a0a0a', stroke: '#ef4444', strokeWidth: 2 }} activeDot={{ r: 6 }} name="cost" />
@@ -770,7 +770,7 @@ export default function Dashboard() {
                   contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1rem', backdropFilter: 'blur(16px)' }}
                   itemStyle={{ color: '#ededed' }}
                   labelStyle={{ color: '#9ca3af', marginBottom: '0.5rem' }}
-                  formatter={(value: any, name: string) => [
+                  formatter={(value: any, name: any) => [
                     name === 'activeClients' ? value : formatCurrency(Number(value)), 
                     name === 'cumulativeProfit' ? 'Cumulative Profit' : 
                     name === 'monthlyProfit' ? 'Monthly Net Profit' : 
