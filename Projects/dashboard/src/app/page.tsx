@@ -500,7 +500,7 @@ export default function Dashboard() {
         </div>
 
         {/* Chart Section */}
-        <div className="glass rounded-[2rem] p-6 lg:p-8 flex-1 min-h-[450px] flex flex-col relative overflow-hidden group">
+        <div className="glass rounded-[2rem] p-6 lg:p-8 h-[450px] lg:h-[550px] flex flex-col relative overflow-hidden group">
           <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-500 rounded-full blur-3xl opacity-10 transition-opacity duration-700 group-hover:opacity-20 pointer-events-none"></div>
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 relative z-10">
@@ -523,7 +523,7 @@ export default function Dashboard() {
             </div>
           </div>
           
-          <div className="flex-1 w-full h-full relative z-10">
+          <div className="flex-1 w-full h-full min-h-[300px] relative z-10">
             <ResponsiveContainer width="100%" height="100%">
               {chartView === 'profitability' ? (
                 <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
@@ -733,7 +733,7 @@ export default function Dashboard() {
             <p className="text-gray-400">Visualizing the snowball effect of the sales machine: acquiring new clients every month while retaining previous cohorts. Displays the compounding growth of active clients and exponential cumulative profit against a fixed monthly operation cost.</p>
           </header>
 
-          <div className="glass rounded-[2rem] p-6 lg:p-8 flex-1 min-h-[400px] flex flex-col relative overflow-hidden">
+          <div className="glass rounded-[2rem] p-6 lg:p-8 h-[400px] lg:h-[500px] flex flex-col relative overflow-hidden">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={ltvChartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                 <defs>
