@@ -22,6 +22,10 @@ export default function Dashboard() {
   const [emailsPerLeadPerMonth, setEmailsPerLeadPerMonth] = useState(3);
   const [positiveReplyRate, setPositiveReplyRate] = useState(0.5); // %
   const [conversionRate, setConversionRate] = useState(10); // %
+  
+  // Lead Sourcing
+  const [leadsFromUpload, setLeadsFromUpload] = useState(0);
+  const [leadsFromSearch, setLeadsFromSearch] = useState(0);
 
   // Financials
   const [avgClientTpv, setAvgClientTpv] = useState(50000);
@@ -69,7 +73,11 @@ export default function Dashboard() {
     const totalLeadsContacted = emailsPerLeadPerMonth > 0 ? totalMonthlyEmails / emailsPerLeadPerMonth : 0;
     
     // Instantly Lead Credits Cost
-    const totalInstantlyCreditsNeeded = totalLeadsContacted * 2;
+    // Using user-provided sourcing quantities if they exist, otherwise fallback to funnel needs
+    const usedLeadsFromUpload = leadsFromUpload > 0 ? leadsFromUpload : 0;
+    const usedLeadsFromSearch = leadsFromSearch > 0 ? leadsFromSearch : (leadsFromUpload > 0 ? 0 : totalLeadsContacted);
+
+    const totalInstantlyCreditsNeeded = (usedLeadsFromUpload * 0.5) + (usedLeadsFromSearch * 2);
     let instantlyLeadsCost = 0;
     let instantlyLeadsPlanName = '';
     
@@ -188,8 +196,7 @@ export default function Dashboard() {
     };
   }, [
     numCompanies, domainsPerCompany, mailboxesPerDomain, costPerDomain, 
-    systemCreationCost, emailsPerDayPerMailbox, emailsPerLeadPerMonth, positiveReplyRate, 
-    conversionRate, avgClientTpv, takeRate, profitMargin
+    conversionRate, avgClientTpv, takeRate, profitMargin, leadsFromUpload, leadsFromSearch
   ]);
 
   // --- CHART DATA GENERATION ---
@@ -219,8 +226,13 @@ export default function Dashboard() {
       const simEmails = totalMailboxesGlobally * emailsPerDayPerMailbox * 30;
       const simLeadsContacted = emailsPerLeadPerMonth > 0 ? simEmails / emailsPerLeadPerMonth : 0;
       
+      // Calculate mix ratio for simulation based on current manual inputs
+      const totalManualLeads = leadsFromUpload + leadsFromSearch;
+      const uploadRatio = totalManualLeads > 0 ? leadsFromUpload / totalManualLeads : 0;
+      const searchRatio = totalManualLeads > 0 ? leadsFromSearch / totalManualLeads : 1;
+
       // Sim Instantly Leads Cost
-      const simInstantlyCredits = simLeadsContacted * 2;
+      const simInstantlyCredits = (simLeadsContacted * uploadRatio * 0.5) + (simLeadsContacted * searchRatio * 2);
       let instantlyLeadsCost = 0;
       if (simInstantlyCredits > 0) {
         if (simInstantlyCredits <= 10000) instantlyLeadsCost = 197;
@@ -267,9 +279,7 @@ export default function Dashboard() {
     }
     return data;
   }, [
-    domainsPerCompany, mailboxesPerDomain, costPerDomain, systemCreationCost, 
-    emailsPerDayPerMailbox, emailsPerLeadPerMonth, positiveReplyRate, conversionRate, 
-    avgClientTpv, takeRate, profitMargin
+    avgClientTpv, takeRate, profitMargin, leadsFromUpload, leadsFromSearch
   ]);
 
   // --- 12-MONTH COMPOUNDING LTV CHART DATA ---
@@ -370,6 +380,25 @@ export default function Dashboard() {
                   <label className="text-xs text-gray-400 flex items-center gap-1"><UserPlus className="w-3 h-3"/> Convert Rate (%)</label>
                   <input type="number" step="0.1" value={conversionRate} onChange={(e) => setConversionRate(Number(e.target.value))} className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors" />
                 </div>
+              </div>
+            </section>
+
+            {/* LEAD SOURCING */}
+            <section className="space-y-4">
+              <h3 className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-500 border-b border-white/10 pb-2">Lead Sourcing (Monthly)</h3>
+              
+              <div className="space-y-2">
+                <label className="text-xs text-gray-400 flex items-center gap-1">Leads Uploaded (Enrichment - 0.5 cr)</label>
+                <input type="number" value={leadsFromUpload} onChange={(e) => setLeadsFromUpload(Number(e.target.value))} className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors" />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs text-gray-400 flex items-center gap-1">Leads Purchased (Search - 2.0 cr)</label>
+                <input type="number" value={leadsFromSearch} onChange={(e) => setLeadsFromSearch(Number(e.target.value))} className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors" />
+              </div>
+
+              <div className="text-[0.6rem] text-blue-500/80 bg-blue-500/5 p-2 rounded border border-blue-500/10">
+                Tip: If values are 0, it defaults to sourcing 100% via search to match your scale.
               </div>
             </section>
 
